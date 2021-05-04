@@ -28,4 +28,16 @@ public class Coords {
     return y;
   };
 
+  @Override
+  public boolean equals(Object o) {
+    if (o == null) {
+      return false;
+    }
+    if (o.getClass() != this.getClass()) {
+      return false;
+    }
+    Coords c = (Coords) o;
+    return (c.getx() == this.x && c.gety() == this.y);
+  }
+
 }
