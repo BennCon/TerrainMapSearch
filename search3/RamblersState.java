@@ -78,14 +78,13 @@ public class RamblersState extends SearchState {
        return (coords == goal); 
     }
 
-    public static void main(String[] args) {
-        RamblersState current = new RamblersState(new Coords(7,3), 1);
-        RamblersSearch search = new RamblersSearch(new TerrainMap("tmc.pgm"), new Coords(7,5));
-
-        for (SearchState s : current.getSuccessors(search)) {
-            RamblersState rs = (RamblersState) s;
-            System.out.println("(" + rs.gety() + "," + rs.getx() + ") - " + rs.getLocalCost());
-        }
+    public String toString() {
+        return "(" + this.gety() + "," + this.getx() + 
+        ") Local Cost: " + this.getLocalCost();
     }
 
+    public static void main(String[] args) {
+        RamblersState r = new RamblersState(new Coords(5,3), 7);
+        System.out.println(r);
+    }
 }
