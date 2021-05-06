@@ -1,5 +1,3 @@
-import jdk.tools.jaotc.collect.SearchFor;
-
 /**
   * RunRamblersBB.java
   * Benjamin Consterdine
@@ -8,7 +6,7 @@ import jdk.tools.jaotc.collect.SearchFor;
 */
 public class RunRamblersBB {
     public static void main(String[] args) {
-        TerrainMap map = new TerrainMap(tmc.pgm);
+        TerrainMap map = new TerrainMap("tmc.pgm");
         Coords goal =  new Coords(8,3);
         Coords start = new Coords(1,1);
 
