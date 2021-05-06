@@ -75,7 +75,7 @@ public class RamblersState extends SearchState {
     public boolean goalPredicate(Search searcher) {
        RamblersSearch rsearch = (RamblersSearch) searcher;
        Coords goal = rsearch.getGoal();
-       return (coords == goal); 
+       return (coords.equals(goal)); 
     }
 
     public String toString() {
@@ -83,8 +83,14 @@ public class RamblersState extends SearchState {
         ") Local Cost: " + this.getLocalCost();
     }
 
-    public static void main(String[] args) {
-        RamblersState r = new RamblersState(new Coords(5,3), 7);
-        System.out.println(r);
-    }
+    // public static void main(String[] args) {
+    //     TerrainMap map = new TerrainMap("search3/tmc.pgm");
+    //     Coords goal = new Coords(6,3);
+    //     RamblersSearch rSearch = new RamblersSearch(map, goal);
+    //     RamblersState r = new RamblersState(new Coords(5,15), 7);
+
+    //     for (SearchState s : r.getSuccessors(rSearch)) {
+    //         System.out.println(s);
+    //     }
+    // }
 }
