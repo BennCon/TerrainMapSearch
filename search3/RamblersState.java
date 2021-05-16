@@ -40,17 +40,25 @@ public class RamblersState extends SearchState {
         int y = this.gety();
         
         if ((x+1) < map.getWidth()) {
+            Coords c = new Coords(y, x+1);
+            int succCost = costToSuccessor(searcher, c);
             succs.add(new RamblersState(new Coords(y, x+1), costToSuccessor(searcher, new Coords(y, x+1))));
         }
         if ((y+1) < map.getHeight()) {
+            Coords c = new Coords(y+1, x);
+            int succCost = costToSuccessor(searcher, c);
             succs.add(new RamblersState(new Coords(y+1, x), costToSuccessor(searcher, new Coords(y+1, x))));
         }
         if ((x-1) >= 0) {
+            Coords c = new Coords(y, x-1);
+            int succCost = costToSuccessor(searcher, c);
             succs.add(new RamblersState(new Coords(y, x-1), costToSuccessor(searcher, new Coords(y, x-1))));
         }
         if ((y-1) >= 0) {
+            Coords c = new Coords(y-1, x);
+            int succCost = costToSuccessor(searcher, c);
             succs.add(new RamblersState(new Coords(y-1, x), costToSuccessor(searcher, new Coords(y-1, x))));
-        }        
+        }       
 
         return succs;
     }
