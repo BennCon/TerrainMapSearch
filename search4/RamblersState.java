@@ -100,9 +100,9 @@ public class RamblersState extends SearchState {
     
         //For Manhattan Distance - Diff in X + Diff in Y
         int dx = Math.abs(goal.getx() - this.getx());
-        int dy = Math.abs(goal.getx() - this.gety());
+        int dy = Math.abs(goal.gety() - this.gety());
         estCost =  dx + dy;
-        
+
         return estCost;
     }
 
