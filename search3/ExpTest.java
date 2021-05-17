@@ -1,13 +1,17 @@
+import java.util.ArrayList;
 import java.util.Random; 
 
 public class ExpTest {
     public static void main(String[] args) {
         TerrainMap map = new TerrainMap("tmc.pgm");
         TerrainMap map2 = new TerrainMap("diablo.pgm");
-        TerrainMap[] maps = {map2};
+        TerrainMap map3 = new TerrainMap("map.pgm");
+        TerrainMap[] maps = {map};
+        ArrayList<Double> eff = new ArrayList<Double>();
+
 
         for (TerrainMap m : maps) {
-            for (int i = 0; i < 1; i++) {
+            for (int i = 0; i < 30; i++) {
                 Random random = new Random();
                 int x1 = random.nextInt(m.getWidth());
                 int y1 = random.nextInt(m.getDepth());
@@ -20,10 +24,15 @@ public class ExpTest {
                 RamblersSearch searcher = new RamblersSearch(m, goal);
                 SearchState initState = (SearchState) new RamblersState(start, 0);
         
-                String res_bf = searcher.runSearch(initState, "BB");
-                System.out.println(res_bf);
+                Double res_bf = searcher.runSearchLessVerbose(initState, "BB");
+                eff.add(res_bf);
+                // System.out.println(res_bf);
             }
         } 
+        System.out.println("Efficiencies:");
+        for (Double i : eff) {
+            System.out.println(i);
+        }
 
     }
 }

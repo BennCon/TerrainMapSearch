@@ -1,8 +1,8 @@
 public class RunRamblersAstart {
     public static void main(String[] args) {
-        TerrainMap map = new TerrainMap("tmc.pgm");
-        Coords goal =  new Coords(9,11);
-        Coords start = new Coords(3,1);
+        TerrainMap map = new TerrainMap("map.pgm");
+        Coords goal =  new Coords(1,3);
+        Coords start = new Coords(0,0);
 
         RamblersSearch searcher = new RamblersSearch(map, goal);
         SearchState initState = (SearchState) new RamblersState(start, 0, 0);

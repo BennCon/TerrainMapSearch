@@ -58,6 +58,49 @@ public abstract class Search {
 
   }
 
+  // run a search but returns only efficiencies
+  public Double runSearchLessVerbose(SearchState initState, String strat) {
+
+    initNode = new SearchNode(initState, 0); // create initial node
+    initNode.setGlobalCost(0); // change from search2
+
+    // change from search1 - print strategy
+    System.out.println("Starting " + strat + " Search");
+
+    open = new ArrayList<SearchNode>(); // initial open, closed
+    open.add(initNode);
+    closed = new ArrayList<SearchNode>();
+
+    int numIteration = 1;
+
+    while (!open.isEmpty()) {
+
+      // print contents of open
+      // System.out.println("-------------------------");
+      // System.out.println("iteration no " + numIteration);
+      // System.out.println("open is");
+      for (SearchNode nn : open) {
+        String nodestr = nn.toString();
+        // System.out.println(nodestr);
+      }
+
+      selectNode(strat); // change from search1 -selectNode selects next node given strategy,
+      // makes it currentNode & removes it from open
+      // System.out.println("Current node: " + currentNode.toString());
+
+      if (currentNode.goalPredicate(this))
+        return reportSuccessLessVerbose(); // success
+      // change from search1 - call reportSuccess
+
+      expand(); // go again
+      closed.add(currentNode); // put current node on closed
+      numIteration = numIteration + 1;
+    }
+
+    return 0.0; // out of the while loop - failure
+
+  }
+
   // expand current node
   private void expand() {
 
@@ -184,5 +227,28 @@ public abstract class Search {
     System.out.println("Efficiency " + ((float) plen / (closed.size() + 1)));
     System.out.println("Solution Path\n");
     return buf.toString();
+  }
+
+  private Double reportSuccessLessVerbose() {
+
+    SearchNode n = currentNode;
+    StringBuffer buf = new StringBuffer(n.toString());
+    int plen = 1;
+
+    while (n.getParent() != null) {
+      buf.insert(0, "\n");
+      n = n.getParent();
+      buf.insert(0, n.toString());
+      plen = plen + 1;
+    }
+
+    // System.out.println("=========================== \n");
+    // System.out.println("Search Succeeds");
+
+    // System.out.println("Efficiency " + ((float) plen / (closed.size() + 1)));
+    // System.out.println("Solution Path\n");
+    // return buf.toString();
+    float efficiency =((float) plen / (closed.size() + 1));
+    return (double)efficiency;
   }
 }
