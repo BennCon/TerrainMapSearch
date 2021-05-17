@@ -7,10 +7,9 @@ import java.util.ArrayList;
 public class RamblersState extends SearchState {
     //Instance variables
     private Coords coords;
-    private double estRemCost;
-    
+
     //Constructor
-    public RamblersState(Coords c, int lc, double rc) {
+    public RamblersState(Coords c, int lc, int rc) {
         coords = c;
         localCost = lc;
         estRemCost = rc;
@@ -26,9 +25,6 @@ public class RamblersState extends SearchState {
     public int gety() {
         return coords.gety();
     }
-    public double getEstRemCost() {
-        return estRemCost;
-    }
 
     //Checks if two states are identical
     public boolean sameState(SearchState s2) {
@@ -41,35 +37,35 @@ public class RamblersState extends SearchState {
         RamblersSearch rsearch = (RamblersSearch) searcher;
         TerrainMap map = rsearch.getMap();
         ArrayList<SearchState> succs = new ArrayList<SearchState>();
-        String strat = "manhattan";
+        String strat = "height";
         Coords c;
         int succCost;
-        double estCostToGoal;
+        int estCostToGoal;
         int x = this.getx();
         int y = this.gety();
         
         if ((x+1) < map.getWidth()) {
             c = new Coords(y, x+1);
             succCost = costToSuccessor(searcher, c);
-            estCostToGoal = estRemCost(searcher, strat);
+            estCostToGoal = estRemCost(searcher, strat, c);
             succs.add(new RamblersState(c, succCost, estCostToGoal));
         }
-        if ((y+1) < map.getHeight()) {
-             c = new Coords(y+1, x);
+        if ((y+1) < map.getDepth()) {
+            c = new Coords(y+1, x);
             succCost = costToSuccessor(searcher, c);
-            estCostToGoal = estRemCost(searcher, strat);
+            estCostToGoal = estRemCost(searcher, strat, c);
             succs.add(new RamblersState(c, succCost, estCostToGoal));
         }
         if ((x-1) >= 0) {
             c = new Coords(y, x-1);
             succCost = costToSuccessor(searcher, c);
-            estCostToGoal = estRemCost(searcher, strat);
+            estCostToGoal = estRemCost(searcher, strat, c);
             succs.add(new RamblersState(c, succCost, estCostToGoal));
         }
         if ((y-1) >= 0) {
             c = new Coords(y-1, x);
             succCost = costToSuccessor(searcher, c);
-            estCostToGoal = estRemCost(searcher, strat);
+            estCostToGoal = estRemCost(searcher, strat, c);
             succs.add(new RamblersState(c, succCost, estCostToGoal));
         }        
 
@@ -94,12 +90,12 @@ public class RamblersState extends SearchState {
 
 
     //Estimated cost to goal for A* heuristic 
-    private double estRemCost(Search searcher, String strat) {
+    private int estRemCost(Search searcher, String strat, Coords c) {
         double estCost;
         RamblersSearch rsearch = (RamblersSearch) searcher;
         Coords goal = rsearch.getGoal();
-        int x1 = this.getx();
-        int y1 = this.gety();
+        int x1 = c.getx();
+        int y1 = c.gety();
         int x2 = goal.getx();
         int y2 = goal.gety();
         int dx = Math.abs(x2 - x1);
@@ -108,11 +104,14 @@ public class RamblersState extends SearchState {
         if (strat.equals("manhattan")) {
             //For Manhattan Distance - Diff in X + Diff in Y
             estCost =  dx + dy;
-        } else {
+        } else if (strat.equals("euclid")) {
             //For Euclidean Distance - sqrt((dx)^2 + (dy)^2)
             estCost = Math.sqrt((Math.pow(dx, 2) + Math.pow(dy, 2)));
+        } else {
+            //For Height Difference
+            estCost = rsearch.getMap().getTmap()[y2][x2] - rsearch.getMap().getTmap()[y1][x1];
         }
-        return estCost;
+        return (int)estCost;
     }
 
     public boolean goalPredicate(Search searcher) {
@@ -123,8 +122,9 @@ public class RamblersState extends SearchState {
 
     public String toString() {
         return "(" + this.gety() + "," + this.getx() + ") Local Cost: "
-         + this.getLocalCost() + " //  Est. Remaining Cost: " + this.getEstRemCost();
+         + this.getLocalCost() + " //  Est. Remaining Cost: " + this.getestRemCost();
     }
+
 
     
 }

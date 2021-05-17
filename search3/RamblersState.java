@@ -46,7 +46,7 @@ public class RamblersState extends SearchState {
             succCost = costToSuccessor(searcher, c);
             succs.add(new RamblersState(c, succCost));
         }
-        if ((y+1) < map.getHeight()) {
+        if ((y+1) < map.getDepth()) {
             c = new Coords(y+1, x);
             succCost = costToSuccessor(searcher, c);
             succs.add(new RamblersState(c, succCost));
@@ -93,14 +93,12 @@ public class RamblersState extends SearchState {
         ") Local Cost: " + this.getLocalCost();
     }
 
-    // public static void main(String[] args) {
-    //     TerrainMap map = new TerrainMap("search3/tmc.pgm");
-    //     Coords goal = new Coords(6,3);
-    //     RamblersSearch rSearch = new RamblersSearch(map, goal);
-    //     RamblersState r = new RamblersState(new Coords(5,15), 7);
+    public static void main(String[] args) {
+        TerrainMap map = new TerrainMap("tmc.pgm");
+        Coords goal = new Coords(6,3);
+        RamblersSearch rSearch = new RamblersSearch(map, goal);
+        RamblersState r = new RamblersState(new Coords(5,15), 7);
 
-    //     for (SearchState s : r.getSuccessors(rSearch)) {
-    //         System.out.println(s);
-    //     }
-    // }
+        System.out.println(map.getHeight());
+    }
 }
