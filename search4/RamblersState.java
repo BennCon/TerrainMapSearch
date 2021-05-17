@@ -7,10 +7,10 @@ import java.util.ArrayList;
 public class RamblersState extends SearchState {
     //Instance variables
     private Coords coords;
-    private int estRemCost;
+    private double estRemCost;
     
     //Constructor
-    public RamblersState(Coords c, int lc, int rc) {
+    public RamblersState(Coords c, int lc, double rc) {
         coords = c;
         localCost = lc;
         estRemCost = rc;
@@ -26,7 +26,7 @@ public class RamblersState extends SearchState {
     public int gety() {
         return coords.gety();
     }
-    public int getEstRemCost() {
+    public double getEstRemCost() {
         return estRemCost;
     }
 
@@ -41,34 +41,35 @@ public class RamblersState extends SearchState {
         RamblersSearch rsearch = (RamblersSearch) searcher;
         TerrainMap map = rsearch.getMap();
         ArrayList<SearchState> succs = new ArrayList<SearchState>();
+        String strat = "manhattan";
         Coords c;
         int succCost;
-        int estCostToGoal;
+        double estCostToGoal;
         int x = this.getx();
         int y = this.gety();
         
         if ((x+1) < map.getWidth()) {
             c = new Coords(y, x+1);
             succCost = costToSuccessor(searcher, c);
-            estCostToGoal = estRemCost(searcher);
+            estCostToGoal = estRemCost(searcher, strat);
             succs.add(new RamblersState(c, succCost, estCostToGoal));
         }
         if ((y+1) < map.getHeight()) {
              c = new Coords(y+1, x);
             succCost = costToSuccessor(searcher, c);
-            estCostToGoal = estRemCost(searcher);
+            estCostToGoal = estRemCost(searcher, strat);
             succs.add(new RamblersState(c, succCost, estCostToGoal));
         }
         if ((x-1) >= 0) {
             c = new Coords(y, x-1);
             succCost = costToSuccessor(searcher, c);
-            estCostToGoal = estRemCost(searcher);
+            estCostToGoal = estRemCost(searcher, strat);
             succs.add(new RamblersState(c, succCost, estCostToGoal));
         }
         if ((y-1) >= 0) {
             c = new Coords(y-1, x);
             succCost = costToSuccessor(searcher, c);
-            estCostToGoal = estRemCost(searcher);
+            estCostToGoal = estRemCost(searcher, strat);
             succs.add(new RamblersState(c, succCost, estCostToGoal));
         }        
 
@@ -93,16 +94,24 @@ public class RamblersState extends SearchState {
 
 
     //Estimated cost to goal for A* heuristic 
-    private int estRemCost(Search searcher) {
-        int estCost;
+    private double estRemCost(Search searcher, String strat) {
+        double estCost;
         RamblersSearch rsearch = (RamblersSearch) searcher;
         Coords goal = rsearch.getGoal();
+        int x1 = this.getx();
+        int y1 = this.gety();
+        int x2 = goal.getx();
+        int y2 = goal.gety();
+        int dx = Math.abs(x2 - x1);
+        int dy = Math.abs(y2 - y1);
     
-        //For Manhattan Distance - Diff in X + Diff in Y
-        int dx = Math.abs(goal.getx() - this.getx());
-        int dy = Math.abs(goal.gety() - this.gety());
-        estCost =  dx + dy;
-
+        if (strat.equals("manhattan")) {
+            //For Manhattan Distance - Diff in X + Diff in Y
+            estCost =  dx + dy;
+        } else {
+            //For Euclidean Distance - sqrt((dx)^2 + (dy)^2)
+            estCost = Math.sqrt((Math.pow(dx, 2) + Math.pow(dy, 2)));
+        }
         return estCost;
     }
 
