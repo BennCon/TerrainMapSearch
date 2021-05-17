@@ -37,7 +37,7 @@ public class RamblersState extends SearchState {
         RamblersSearch rsearch = (RamblersSearch) searcher;
         TerrainMap map = rsearch.getMap();
         ArrayList<SearchState> succs = new ArrayList<SearchState>();
-        String strat = "height";
+        String strat = "euclid3d";
         Coords c;
         int succCost;
         int estCostToGoal;
@@ -100,6 +100,7 @@ public class RamblersState extends SearchState {
         int y2 = goal.gety();
         int dx = Math.abs(x2 - x1);
         int dy = Math.abs(y2 - y1);
+        int dHeight = rsearch.getMap().getTmap()[y2][x2] - rsearch.getMap().getTmap()[y1][x1];
     
         if (strat.equals("manhattan")) {
             //For Manhattan Distance - Diff in X + Diff in Y
@@ -107,9 +108,18 @@ public class RamblersState extends SearchState {
         } else if (strat.equals("euclid")) {
             //For Euclidean Distance - sqrt((dx)^2 + (dy)^2)
             estCost = Math.sqrt((Math.pow(dx, 2) + Math.pow(dy, 2)));
-        } else {
+        } else if (strat.equals("height")) {
             //For Height Difference
-            estCost = rsearch.getMap().getTmap()[y2][x2] - rsearch.getMap().getTmap()[y1][x1];
+            if (dHeight > 0) {
+                estCost = dHeight + (dy + dx);
+            } else {
+                estCost = dy + dx;
+            }
+        } else if (strat.equals("manhattan3d")) {
+            //3D manhattan
+            estCost = dx + dy + dHeight;
+        } else {
+            estCost = Math.sqrt((Math.pow(dx, 2) + Math.pow(dy, 2) + Math.pow(dHeight,2)));
         }
         return (int)estCost;
     }
