@@ -11,7 +11,7 @@ public class ExpTest {
 
 
         for (TerrainMap m : maps) {
-            for (int i = 0; i < 30; i++) {
+            for (int i = 0; i < 1; i++) {
                 Random random = new Random();
                 int x1 = random.nextInt(m.getWidth());
                 int y1 = random.nextInt(m.getDepth());
@@ -22,9 +22,9 @@ public class ExpTest {
                 Coords start = new Coords(y2,x2);
 
                 RamblersSearch searcher = new RamblersSearch(m, goal);
-                SearchState initState = (SearchState) new RamblersState(start, 0);
+                SearchState initState = (SearchState) new RamblersState(start, 0, 0);
         
-                float res_bf = searcher.runSearchLessVerbose(initState, "BB");
+                float res_bf = searcher.runSearchLessVerbose(initState, "AStar");
                 eff.add(res_bf);
                 // System.out.println(res_bf);
             }

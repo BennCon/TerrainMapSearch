@@ -59,7 +59,7 @@ public abstract class Search {
   }
 
   // run a search but returns only efficiencies
-  public Double runSearchLessVerbose(SearchState initState, String strat) {
+  public Float runSearchLessVerbose(SearchState initState, String strat) {
 
     initNode = new SearchNode(initState, 0); // create initial node
     initNode.setGlobalCost(0); // change from search2
@@ -89,7 +89,7 @@ public abstract class Search {
       // System.out.println("Current node: " + currentNode.toString());
 
       if (currentNode.goalPredicate(this))
-        return reportSuccessLessVerbose(); // success
+        return reportSuccessE(); // success
       // change from search1 - call reportSuccess
 
       expand(); // go again
@@ -97,7 +97,7 @@ public abstract class Search {
       numIteration = numIteration + 1;
     }
 
-    return 0.0; // out of the while loop - failure
+    return (float)0.0; // out of the while loop - failure
 
   }
 
@@ -229,26 +229,40 @@ public abstract class Search {
     return buf.toString();
   }
 
-  private Double reportSuccessLessVerbose() {
+  // private Double reportSuccessLessVerbose() {
+
+  //   SearchNode n = currentNode;
+  //   StringBuffer buf = new StringBuffer(n.toString());
+  //   int plen = 1;
+
+  //   while (n.getParent() != null) {
+  //     buf.insert(0, "\n");
+  //     n = n.getParent();
+  //     buf.insert(0, n.toString());
+  //     plen = plen + 1;
+  //   }
+
+  //   // System.out.println("=========================== \n");
+  //   // System.out.println("Search Succeeds");
+
+  //   // System.out.println("Efficiency " + ((float) plen / (closed.size() + 1)));
+  //   // System.out.println("Solution Path\n");
+  //   // return buf.toString();
+  //   float efficiency =((float) plen / (closed.size() + 1));
+  //   return (double)efficiency;
+  // }
+
+  // reportSuccess for runSearcE
+  private float reportSuccessE(){
 
     SearchNode n = currentNode;
-    StringBuffer buf = new StringBuffer(n.toString());
-    int plen = 1;
+    int plen=1;
 
-    while (n.getParent() != null) {
-      buf.insert(0, "\n");
-      n = n.getParent();
-      buf.insert(0, n.toString());
-      plen = plen + 1;
+    while (n.getParent() != null){
+      n=n.getParent();
+      plen=plen+1;
     }
 
-    // System.out.println("=========================== \n");
-    // System.out.println("Search Succeeds");
-
-    // System.out.println("Efficiency " + ((float) plen / (closed.size() + 1)));
-    // System.out.println("Solution Path\n");
-    // return buf.toString();
-    float efficiency =((float) plen / (closed.size() + 1));
-    return (double)efficiency;
+   return (float) plen/(closed.size()+1);
   }
 }
