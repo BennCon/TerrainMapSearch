@@ -6,9 +6,9 @@
 */
 public class RunRamblersBB {
     public static void main(String[] args) {
-        TerrainMap map = new TerrainMap("tmc.pgm");
-        Coords goal =  new Coords(12,3);
-        Coords start = new Coords(15,9);
+        TerrainMap map = new TerrainMap("diablo.pgm");
+        Coords goal =  new Coords(33,36);
+        Coords start = new Coords(102,102);
 
         RamblersSearch searcher = new RamblersSearch(map, goal);
         SearchState initState = (SearchState) new RamblersState(start, 0);

@@ -37,7 +37,7 @@ public class RamblersState extends SearchState {
         RamblersSearch rsearch = (RamblersSearch) searcher;
         TerrainMap map = rsearch.getMap();
         ArrayList<SearchState> succs = new ArrayList<SearchState>();
-        String strat = "3deuclid";
+        String strat = "3dEuc";
         Coords c;
         int succCost;
         int estCostToGoal;
