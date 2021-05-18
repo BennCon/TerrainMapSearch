@@ -43,14 +43,14 @@ public class ExpTest {
     
             Float res_bf = searcher.runSearchLessVerbose(initState, "BB");
             eff.add(res_bf);
-            // System.out.println(res_bf);
+            System.out.println(start.gety()+","+start.getx()+","+goal.gety()+","+goal.getx()+","+res_bf);
         }
 
 
-        System.out.println("Efficiencies:");
-        for (Float i : eff) {
-            System.out.println(i);
-        }
+        // System.out.println("Efficiencies:");
+        // for (Float i : eff) {
+        //     System.out.println(i);
+        // }
 
     }
 }
