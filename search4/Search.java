@@ -69,7 +69,7 @@ public abstract class Search {
     initNode.setGlobalCost(0); //change from search2
 
 	  //change from search1 - print strategy
-	  System.out.println("Starting "+strat+" Search");
+	  // System.out.println("Starting "+strat+" Search");
 
 	  open = new ArrayList<SearchNode>(); // initial open, closed
 	  open.add(initNode);

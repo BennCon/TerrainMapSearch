@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.*;
+import java.io.DataOutputStream;
+import java.io.FileOutputStream;
 
 
 public class ExpTest {
@@ -12,14 +14,9 @@ public class ExpTest {
         TerrainMap map = new TerrainMap("tmc.pgm");
         TerrainMap map2 = new TerrainMap("diablo.pgm");
         TerrainMap map3 = new TerrainMap("map.pgm");
-        TerrainMap activeMap = map;
         ArrayList<Float> eff = new ArrayList<Float>();
         HashMap<Coords, Coords> startGoalPairs = new HashMap<Coords, Coords>();
-
-
-        if (activeMap.equals(map)) {
-            File file = new File("tmcCoords10000.csv");
-        }
+        File file = new File("diabloCoords50.csv");
 
         try {
             Scanner scan = new Scanner(file);
@@ -41,7 +38,7 @@ public class ExpTest {
             Map.Entry mapElement = (Map.Entry)Iterator.next();
             Coords start  = (Coords)mapElement.getKey();
             Coords goal  = (Coords)mapElement.getValue();
-            RamblersSearch searcher = new RamblersSearch(map, goal);
+            RamblersSearch searcher = new RamblersSearch(map2, goal);
             SearchState initState = (SearchState) new RamblersState(start, 0);
     
             Float res_bf = searcher.runSearchLessVerbose(initState, "BB");

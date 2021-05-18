@@ -37,7 +37,7 @@ public class RamblersState extends SearchState {
         RamblersSearch rsearch = (RamblersSearch) searcher;
         TerrainMap map = rsearch.getMap();
         ArrayList<SearchState> succs = new ArrayList<SearchState>();
-        String strat = "manhattan";
+        String strat = "3deuclid";
         Coords c;
         int succCost;
         int estCostToGoal;
@@ -115,11 +115,12 @@ public class RamblersState extends SearchState {
             } else {
                 estCost = dy + dx;
             }
-        } else if (strat.equals("manhattan3d")) {
-            //3D manhattan
-            estCost = dx + dy + dHeight;
         } else {
-            estCost = Math.sqrt((Math.pow(dx, 2) + Math.pow(dy, 2) + Math.pow(dHeight,2)));
+            if (dHeight > 0) {
+                estCost = Math.sqrt((Math.pow(dx, 2) + Math.pow(dy, 2) + Math.pow(dHeight,2)));
+            } else {
+                estCost = Math.sqrt((Math.pow(dx, 2) + Math.pow(dy, 2)));
+            }
         }
         return (int)estCost;
     }
