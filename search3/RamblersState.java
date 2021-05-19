@@ -29,7 +29,7 @@ public class RamblersState extends SearchState {
     //sameState
     public boolean sameState(SearchState s2) {
         RamblersState rs2 = (RamblersState) s2;
-        return (coords.equals(rs2.getCoords()) && localCost == rs2.getLocalCost());
+        return (coords.equals(rs2.getCoords()));
     }
 
     public ArrayList<SearchState> getSuccessors(Search searcher) {
@@ -41,6 +41,11 @@ public class RamblersState extends SearchState {
         int x = this.getx();
         int y = this.gety();
         
+        if ((x-1) >= 0) {
+            c = new Coords(y, x-1);
+            succCost = costToSuccessor(searcher, c);
+            succs.add(new RamblersState(c, succCost));
+        }
         if ((x+1) < map.getWidth()) {
             c = new Coords(y, x+1);
             succCost = costToSuccessor(searcher, c);
@@ -48,11 +53,6 @@ public class RamblersState extends SearchState {
         }
         if ((y+1) < map.getDepth()) {
             c = new Coords(y+1, x);
-            succCost = costToSuccessor(searcher, c);
-            succs.add(new RamblersState(c, succCost));
-        }
-        if ((x-1) >= 0) {
-            c = new Coords(y, x-1);
             succCost = costToSuccessor(searcher, c);
             succs.add(new RamblersState(c, succCost));
         }
@@ -93,12 +93,12 @@ public class RamblersState extends SearchState {
         ") Local Cost: " + this.getLocalCost();
     }
 
-    public static void main(String[] args) {
-        TerrainMap map = new TerrainMap("tmc.pgm");
-        Coords goal = new Coords(6,3);
-        RamblersSearch rSearch = new RamblersSearch(map, goal);
-        RamblersState r = new RamblersState(new Coords(5,15), 7);
+    // public static void main(String[] args) {
+    //     TerrainMap map = new TerrainMap("tmc.pgm");
+    //     Coords goal = new Coords(6,3);
+    //     RamblersSearch rSearch = new RamblersSearch(map, goal);
+    //     RamblersState r = new RamblersState(new Coords(5,15), 7);
 
-        System.out.println(map.getHeight());
-    }
+    //     System.out.println(map.getHeight());
+    // }
 }

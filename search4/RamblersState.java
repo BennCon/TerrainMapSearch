@@ -29,7 +29,7 @@ public class RamblersState extends SearchState {
     //Checks if two states are identical
     public boolean sameState(SearchState s2) {
         RamblersState rs2 = (RamblersState) s2;
-        return (coords.equals(rs2.getCoords()) && localCost == rs2.getLocalCost() && estRemCost == rs2.estRemCost);
+        return (coords.equals(rs2.getCoords()));
     }
 
     //Gets successors of a given state
