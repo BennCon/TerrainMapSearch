@@ -26,12 +26,13 @@ public class RamblersState extends SearchState {
         return coords.gety();
     }
 
-    //sameState
+    //Checks if two states have the same coordinates
     public boolean sameState(SearchState s2) {
         RamblersState rs2 = (RamblersState) s2;
         return (coords.equals(rs2.getCoords()));
     }
 
+    //Gets successors to a givens tate
     public ArrayList<SearchState> getSuccessors(Search searcher) {
         RamblersSearch rsearch = (RamblersSearch) searcher;
         TerrainMap map = rsearch.getMap();
@@ -41,6 +42,7 @@ public class RamblersState extends SearchState {
         int x = this.getx();
         int y = this.gety();
         
+        //Has to check for map boundaries
         if ((x-1) >= 0) {
             c = new Coords(y, x-1);
             succCost = costToSuccessor(searcher, c);
@@ -65,14 +67,16 @@ public class RamblersState extends SearchState {
         return succs;
     }
 
-    //Cost to successor
+    //Helper method for finding cost to successor
     private int costToSuccessor(Search searcher, Coords c) {
         int cost;
         RamblersSearch rsearch = (RamblersSearch) searcher;
         TerrainMap map = rsearch.getMap();
+        //Gets height of current and successor nodes
         int currentHeight = map.getTmap()[gety()][getx()];
         int succHeight = map.getTmap()[c.gety()][c.getx()];
 
+        //Checks if successor is higher than current node
         if (succHeight <= currentHeight) {
             cost = 1;
         } else {
@@ -81,7 +85,7 @@ public class RamblersState extends SearchState {
         return cost;
     }
 
-
+    //Checks if a state matches the goal
     public boolean goalPredicate(Search searcher) {
        RamblersSearch rsearch = (RamblersSearch) searcher;
        Coords goal = rsearch.getGoal();
@@ -92,13 +96,4 @@ public class RamblersState extends SearchState {
         return "(" + this.gety() + "," + this.getx() + 
         ") Local Cost: " + this.getLocalCost();
     }
-
-    // public static void main(String[] args) {
-    //     TerrainMap map = new TerrainMap("tmc.pgm");
-    //     Coords goal = new Coords(6,3);
-    //     RamblersSearch rSearch = new RamblersSearch(map, goal);
-    //     RamblersState r = new RamblersState(new Coords(5,15), 7);
-
-    //     System.out.println(map.getHeight());
-    // }
 }

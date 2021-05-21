@@ -37,17 +37,18 @@ public class RamblersState extends SearchState {
         RamblersSearch rsearch = (RamblersSearch) searcher;
         TerrainMap map = rsearch.getMap();
         ArrayList<SearchState> succs = new ArrayList<SearchState>();
-        String strat = "3dEuc";
+        String strat = "manhattan"; //Determines the A* heuristic in use
         Coords c;
         int succCost;
         int estCostToGoal;
         int x = this.getx();
         int y = this.gety();
         
+        //Checks boundaries
         if ((x+1) < map.getWidth()) {
             c = new Coords(y, x+1);
             succCost = costToSuccessor(searcher, c);
-            estCostToGoal = estRemCost(searcher, strat, c);
+            estCostToGoal = estRemCost(searcher, strat, c); //Calls helper method
             succs.add(new RamblersState(c, succCost, estCostToGoal));
         }
         if ((y+1) < map.getDepth()) {
@@ -72,7 +73,7 @@ public class RamblersState extends SearchState {
         return succs;
     }
 
-    //Cost to successor
+    //Helper method for cost to successor
     private int costToSuccessor(Search searcher, Coords c) {
         int cost;
         RamblersSearch rsearch = (RamblersSearch) searcher;
@@ -80,6 +81,7 @@ public class RamblersState extends SearchState {
         int currentHeight = map.getTmap()[this.gety()][this.getx()];
         int succHeight = map.getTmap()[c.gety()][c.getx()];
 
+        //Checks height
         if (succHeight <= currentHeight) {
             cost = 1;
         } else {
@@ -94,6 +96,7 @@ public class RamblersState extends SearchState {
         double estCost;
         RamblersSearch rsearch = (RamblersSearch) searcher;
         Coords goal = rsearch.getGoal();
+        //Loads helpful measures in
         int x1 = c.getx();
         int y1 = c.gety();
         int x2 = goal.getx();
@@ -116,6 +119,7 @@ public class RamblersState extends SearchState {
                 estCost = dy + dx;
             }
         } else {
+            //For 3D Euclidean distance
             if (dHeight > 0) {
                 estCost = Math.sqrt((Math.pow(dx, 2) + Math.pow(dy, 2) + Math.pow(dHeight,2)));
             } else {
@@ -125,6 +129,7 @@ public class RamblersState extends SearchState {
         return (int)estCost;
     }
 
+    //Checks if state is the goal
     public boolean goalPredicate(Search searcher) {
         RamblersSearch rsearch = (RamblersSearch) searcher;
         Coords goal = rsearch.getGoal();
@@ -135,7 +140,4 @@ public class RamblersState extends SearchState {
         return "(" + this.gety() + "," + this.getx() + ") Local Cost: "
          + this.getLocalCost() + " //  Est. Remaining Cost: " + this.getestRemCost();
     }
-
-
-    
 }
