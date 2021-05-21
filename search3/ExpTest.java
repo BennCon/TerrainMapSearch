@@ -14,6 +14,8 @@ public class ExpTest {
         TerrainMap map3 = new TerrainMap("map.pgm"); //Not used in my testing
         ArrayList<Float> eff = new ArrayList<Float>();
         File file = new File("tmcCoords10000.csv"); //CSV file of coordinates
+        // File file2 = new File("diabloCoords50.csv");
+
 
         //Try catch loop to load in the file
         try {
